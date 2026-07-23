@@ -1,10 +1,24 @@
 using Unity.Entities;
 using Unity.Mathematics;
+using Unity.Rendering;
 using Unity.Transforms;
 using UnityEngine;
 
 public struct PlayerTag: IComponentData {}
 public struct InitializeCameraTargetTag : IComponentData {}
+
+[MaterialProperty("_AnimationIndex")]
+public struct AnimationIndexOverride : IComponentData
+{
+    public int Value;
+}
+
+public enum PlayerAnimationIndex :byte
+{
+    Movement = 0,
+    Idle = 1,
+    None = byte.MaxValue
+}
 
 public struct CameraTarget : IComponentData
 {
@@ -21,6 +35,7 @@ public class PlayerAuthoring : MonoBehaviour
             AddComponent<PlayerTag>(entity);
             AddComponent<InitializeCameraTargetTag>(entity);
             AddComponent<CameraTarget>(entity);
+            AddComponent<AnimationIndexOverride>(entity);
         }
     }
 }
